@@ -1,0 +1,68 @@
+{% extends 'dashboard.html' %}
+
+{% block content_dashboard %}
+    <!-- Main Content Area -->
+    <div class="content">
+        <div class="container-fluid">
+            <h2>Data</h2>
+
+            <!-- Dashboard Cards -->
+            <div class="row" style="padding-bottom: 10px;">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5>Download</h5>
+                            <p>Data dumps export all recorded data as JSON or CSV. For Dutch Excel users, use semicolon-delimited CSV; comma-separated CSV is suitable for other regions.</p>
+                            <p>When using data to generate e.g. hypergraphs: cycle through a unique list of product_id and select associated rows.</p>
+                            <div>
+                                <a href="/data/download?type=csv" class="btn btn-primary">
+                                      Download as CSV ;</a>
+                                <a href="/data/download?type=csv_comma" class="btn btn-primary">Download as CSV ,</a>
+                                <a href="/data/download?type=json" class="btn btn-secondary">Download as JSON</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Additional Content -->
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">PRODUCTTABEL</h5>
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered table-striped">
+                                  <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col">ID</th>
+                                        <th scope="col">Brand Name</th>
+                                        <th scope="col">Model</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">User</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                  {% for product in products %}
+                                  
+                                    <tr id="product{{product.product_id}}">
+                                      <td>{{product.id}}</td>
+                                      <td>{{product.brand_name}}</td>
+                                      <td>{{product.model}}</td>
+                                      <td>{{product.description}}</td>
+                                      <td>{{product.username}}</td>
+                                    </tr>
+
+                                  {%endfor%}
+                                  </tbody>
+
+                                </table>
+                              </div>
+                              
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
