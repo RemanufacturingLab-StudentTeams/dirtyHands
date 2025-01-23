@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+
+
+{% block title %}Dashboard{% endblock %}
+
+
+
+{% block content %}
+
+<div class="wrapper">   
+
+    
+    <!-- Sidebar -->
+    <div class="sidebar bg-light p-3 vh-100" id="sidebar">
+        <div class="container-fluid text-center">
+                <h4 class="logo-text text-primary fw-bold mb-4">
+                    <img src="{{ url_for('static', filename='img/tool-logo.svg') }}" alt="Tool Logo" class="logo-icon"> Dirty<br>Hands
+                </h4>       
+            <button id="close-sidebar" class="btn btn-danger d-md-none" style="width:100%;">Close</button>
+            <a href="{{ url_for('home') }}" class="d-block py-2 text-dark">Dashboard</a>
+            <a href="{{ url_for('disassemble') }}" class="d-block py-2 text-dark">Disassemble</a>
+            
+            {% if current_user.is_admin %}
+                <a href="{{ url_for('users') }}" class="d-block py-2 text-dark">Users</a>
+                <a href="{{ url_for('data') }}" class="d-block py-2 text-dark">Data</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}" class="d-block py-2 text-danger">Logout</a>
+        </div>
+    </div>
+
+    
+    <!-- Top Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid">
+            <button class="btn btn-primary d-md-none" id="menu-toggle">
+                <span class="navbar-toggler-icon"></span> Menu
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <!-- Main Content Area -->
+    {% block content_dashboard %}
+    {% endblock %}
+</div> 
+{% endblock %}

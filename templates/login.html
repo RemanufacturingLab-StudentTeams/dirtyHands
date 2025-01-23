@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+<div style="display: flex; justify-content:center;align-items:center;height:100vh;">
+    <div class="card login-container" style="width: 400px;">
+        <div class="card-header">
+            <ul class="nav nav-tabs card-header-tabs">
+                <li class="nav-item">
+                <a class="nav-link active" href="#" aria-disabled="true">Login</a>
+                </li>
+                <!--        <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                        </li>
+                        <li class="nav-item">
+                        <a class="nav-link disabled" aria-disabled="true">Disabled</a>
+                        </li>
+                    -->
+            </ul>          
+        </div>
+
+        <div class="card-body">
+            <div style="display: flex;justify-content:center;">
+                <h4 class="logo-text text-primary fw-bold mb-4">
+                    <img src="{{ url_for('static', filename='img/tool-logo.svg') }}" alt="Tool Logo" class="logo-icon"> Dirty<br>Hands
+                </h4>  
+            </div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for colour, message in messages %}
+                        <div class="alert alert-{{colour}}" role="alert">
+                            {{message}}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            <form method="POST" action="{{url_for('login')}}">
+                <div class="mb-3">
+                    <label for="username" class="form-label">Gebruikersnaam</label>
+                    <input type="username" name="username" class="form-control" id="username" placeholder="Gebruikersnaam" required>
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Wachtwoord</label>
+                    <input type="password" name="password" class="form-control" id="password" placeholder="Wachtwoord" required>
+                </div>
+                <button type="submit" class="btn btn-primary login-btn" style="width:100%;">Login</button>
+                <div class="text-center mt-3">
+                    <small><i>Nog geen account? Vraag er een aan via je tutor.</i></small>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

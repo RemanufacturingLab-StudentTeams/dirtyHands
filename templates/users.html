@@ -1,0 +1,198 @@
+<!-- users.html -->
+{% extends 'dashboard.html' %}
+
+{% block content_dashboard %}
+<div class="content">
+    <div class="container-fluid">
+
+
+        <h2>Dashboard</h2>
+        <p>Welcome to the admin dashboard!</p>
+        
+        {% block content2 %}
+        {% endblock %}
+        <!-- Dashboard Cards -->
+        <div class="row">
+            <div class="col-md-4">
+                <div class="card mb-4 login-container">
+                    <div class="card-header">
+                        <ul class="nav nav-tabs card-header-tabs">
+                            <li class="nav-item">
+                            <a class="nav-link active" href="#" aria-disabled="true">Registreer</a>
+                        </ul>          
+                    </div>
+            
+                    <div class="card-body">
+                        <h3 class="text-center mb-4">HHS</h3>
+                        <form method="POST">
+                            <div class="mb-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Project</span>
+                                    <input type="comment" class="form-control" id="comment" name="comment" placeholder="Workshop Den Haag 25/3" required>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">@</span>
+                                    <input type="text" class="form-control" id="username" name="username" placeholder="Username" aria-label="username" required>
+                                    <span class="input-group-text">***</span>
+                                    <input type="text" class="form-control" id="password" name="password" placeholder="Password" aria-label="password" required>
+                                  </div>
+                            </div>
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input style="width:50px;height:25px;" class="form-check-input" type="checkbox" value="on" id="is_admin" name="is_admin">
+                                    <label class="form-check-label" for="is_admin">Tutor?</label>
+                                  </div>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary login-btn" style="width:100%;">Registreer</button>
+                        </form>
+                        
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <!-- CARD
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Users</h5>
+                        <p class="card-text">1,234</p>
+                    </div>
+                </div>
+                -->
+            </div>
+            <div class="col-md-4">
+                <!-- CARD
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title">Total Users</h5>
+                        <p class="card-text">1,234</p>
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+        
+        <!-- Additional Content -->
+        <div class="row">
+            <div class="col-md-12">
+                {% with messages = get_flashed_messages(with_categories=true) %}
+                    {% if messages %}
+                        {% for colour, message in messages %}
+                            <div class="alert alert-{{colour}}" role="alert">
+                                {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title">Recent Activity</h5>
+                        <div class="table-responsive">
+                            <table class="table table-hover table-bordered table-striped">
+                              <thead class="thead-dark">
+                                <tr>
+                                  <th scope="col">ID</th>
+                                  <th scope="col">Name</th>
+                                  <th scope="col">Password</th>
+                                  <th scope="col">Comment</th>
+                                  <th scope="col">Is tutor?</th>
+                                  <th scope="col"></th>
+                                  <th scope="col"></th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {% for user in users %}
+                                <tr id="user-{{ user.id }}">
+                                    <td>{{ user.id }}</td>
+                                    <td>
+                                        <span class="editable" data-field="username">{{ user.username }}</span>
+                                    </td>
+                                    <td>***</td>
+                                    <td>
+                                        <span class="editable" data-field="comment">{{ user.comment }}</span>
+                                    </td>
+                                    <td>
+                                        <span>{{ user.is_admin }}</span>
+                                    </td>
+                                    <td>
+                                        <button class="btn btn-sm btn-warning edit-btn" onclick="enableEditing('{{ user.id }}')">Edit</button>
+                                        <button class="btn btn-sm btn-success save-btn d-none" onclick="saveChanges('{{ user.id }}')">Save</button>
+                                    </td>
+                                    <td>
+                                        <form action="{{ url_for('delete_user', user_id=user.id) }}" method="POST" style="display:inline;">
+                                            <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                            
+                            </table>
+
+                            <script>
+                                function enableEditing(userId) {
+                                    const row = document.getElementById(`user-${userId}`);
+                                    const editableFields = row.querySelectorAll('.editable');
+                                    const editButton = row.querySelector('.edit-btn');
+                                    const saveButton = row.querySelector('.save-btn');
+                                
+                                    editableFields.forEach(field => {
+                                        const value = field.innerText;
+                                        const fieldName = field.getAttribute('data-field');
+                                        field.innerHTML = `<input type="text" class="form-control" name="${fieldName}" value="${value}">`;
+                                    });
+                                
+                                    editButton.classList.add('d-none');
+                                    saveButton.classList.remove('d-none');
+                                }
+                                
+                                function saveChanges(userId) {
+                                    const row = document.getElementById(`user-${userId}`);
+                                    const editButton = row.querySelector('.edit-btn');
+                                    const saveButton = row.querySelector('.save-btn');
+                                    const inputs = row.querySelectorAll('input');
+                                
+                                    const data = { user_id: userId };
+                                    inputs.forEach(input => {
+                                        const fieldName = input.name;
+                                        data[fieldName] = input.value;
+                                    });
+                                
+                                    fetch(`/users/edit`, {
+                                        method: 'POST',
+                                        headers: {
+                                            'Content-Type': 'application/json',
+                                        },
+                                        body: JSON.stringify(data),
+                                    })
+                                        .then(response => response.json())
+                                        .then(data => {
+                                            if (data.success) {
+                                                inputs.forEach(input => {
+                                                    const value = input.value;
+                                                    input.parentElement.innerHTML = value;
+                                                });
+                                                saveButton.classList.add('d-none');
+                                                editButton.classList.remove('d-none');
+                                            } else {
+                                                alert('Error updating user: ' + data.message);
+                                            }
+                                        })
+                                        .catch(error => {
+                                            console.error('Error:', error);
+                                            alert('An error occurred while saving changes.');
+                                        });
+                                }
+                                </script>
+                                
+                          </div>
+                          
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
