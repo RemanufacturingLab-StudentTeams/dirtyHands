@@ -1,0 +1,5 @@
+neo4j>=6,<7
+pandas==2.3.3
+hypernetx==2.3.13
+matplotlib>=3.10,<4
+networkx>=3.4,<4
