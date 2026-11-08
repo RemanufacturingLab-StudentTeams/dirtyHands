@@ -1,0 +1,20 @@
+27-05-2026	
+
+Manuals:
+1. Python
+Installing Python and required libraries
+Included:
+- python manual.pdf
+- requirements.txt
+
+2. Neo4j database
+Interacting with the Reman neo4j database, inputting data and running manual queries
+Included:
+- Database manual.pdf
+- excel_to_database.py
+- cypher_queries.xxx
+
+3. Hypergraph
+Generating a hypergraph from a product in the neo4j database
+- Hypergraph manual.pdf
+- generate_hypergraph.py

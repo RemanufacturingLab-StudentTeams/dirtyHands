@@ -1,0 +1,10 @@
+name,description,query,id,parentId,isFolder
+"👁️ View Graph ",,"MATCH (n) OPTIONAL MATCH (n)-[r]->(m) RETURN n, r, m LIMIT 1000;",0,,false
+🔍 Find select property,,"MATCH (n)-[r]-(m)
+
+WHERE n.product_id = ""82b5cb9f-da44-4be9-a59d-0900efcec799""
+
+   OR m.product_id = ""82b5cb9f-da44-4be9-a59d-0900efcec799""
+
+RETURN n, r, m",1,,false
+⚠️Warning⚠️: Delete All,,MATCH (n) DETACH DELETE n;,2,,false
